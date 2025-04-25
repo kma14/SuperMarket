@@ -1,0 +1,15 @@
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\bin\Debug\net8.0\SuperMarket.Application.deps.json
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\bin\Debug\net8.0\SuperMarket.Application.dll
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\bin\Debug\net8.0\SuperMarket.Application.pdb
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\SuperMarket.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\SuperMarket.Application.AssemblyInfoInputs.cache
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\SuperMarket.Application.AssemblyInfo.cs
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\SuperMarket.Application.csproj.CoreCompileInputs.cache
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\SuperMarket.Application.dll
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\refint\SuperMarket.Application.dll
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\SuperMarket.Application.pdb
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\ref\SuperMarket.Application.dll
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\bin\Debug\net8.0\SuperMarket.Domain.dll
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\bin\Debug\net8.0\SuperMarket.Domain.pdb
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\SuperMarket.Application.csproj.AssemblyReference.cache
+C:\Users\Kevin\source\repos\SuperMarket\src\SuperMarket.Application\obj\Debug\net8.0\SuperMar.2AD9CD37.Up2Date
