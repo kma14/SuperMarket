@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SuperMarket.API.DTOs;
 using SuperMarket.Application.Interfaces;
@@ -6,7 +7,7 @@ using SuperMarket.Domain.Exceptions;
 using SuperMarket.Domain.Interfaces;
 
 namespace SuperMarket.API.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class CartController(ICartService cartServices, IPricingStrategy pricingStrategy) : Controller()
