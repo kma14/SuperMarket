@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SuperMarket.Application\SuperMarket.Application.csproj" />
-    <ProjectReference Include="..\SuperMarket.Domain\SuperMarket.Domain.csproj" />
     <ProjectReference Include="..\SuperMarket.Infrastructure\SuperMarket.Infrastructure.csproj" />
   </ItemGroup>
 

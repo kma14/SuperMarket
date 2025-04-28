@@ -1,35 +1,52 @@
-using SuperMarket.Domain;
-using SuperMarket.Domain.Entities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using SuperMarket.Application.Interfaces;
+using SuperMarket.Application.Services;
+using SuperMarket.Domain.Interfaces;
 using SuperMarket.Domain.PricingStrategies;
 using SuperMarket.Domain.ValueObjects;
+using SuperMarket.Infrastructure;
 
 namespace SuperMarket.IntegrationTests
 {
     public class ShoppingCartIntegrationTests
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        public ShoppingCartIntegrationTests()
+        {
+            // Arrange DI container
+            var builder = new ServiceCollection();
+            builder.AddInfrastructureServices(new ConfigurationBuilder().AddJsonFile("appsettings.json").Build());
+
+            var dataSource = builder.BuildServiceProvider().GetRequiredService<IDataSource>();
+            var pricingRules = dataSource.Load<Dictionary<string, List<Pack>>>("PricingRules:PackRules");
+            var catalog = new Catalog(pricingRules);
+            builder.AddSingleton(catalog);
+            builder.AddSingleton<IPricingStrategy>(new PackPricingStrategy(catalog));
+            builder.AddSingleton<ICartService, CartService>();
+
+            _serviceProvider = builder.BuildServiceProvider();
+        }
+
         [Fact]
         public void Cart_WithPackPricingStrategy_ShouldCalculateCorrectTotal()
         {
-            // Arrange
-            var rules = new Dictionary<string, List<Pack>>
-            {
-                { "A", new List<Pack> { new(1, 50), new(3, 130) } },
-                { "B", new List<Pack> { new(2, 45), new(1, 30) } }
-            };
+            // Arrange: Resolve the CartService and use the injected strategy
+            var cartService = _serviceProvider.GetRequiredService<ICartService>();
 
-            var strategy = new PackPricingStrategy(rules);
-            var cart = new ShoppingCart(strategy);
-
-            cart.AddItem(new CartItem("A"));
-            cart.AddItem(new CartItem("B"));
-            cart.AddItem(new CartItem("A"));
-            cart.AddItem(new CartItem("A")); 
+            cartService.AddCartItem("A");
+            cartService.AddCartItem("A");
+            cartService.AddCartItem("B");
+            cartService.AddCartItem("A");
+            cartService.AddCartItem("C");
+            cartService.AddCartItem("B");
 
             // Act
-            var total = cart.CalculateTotalPrice();
+            var total = cartService.CalculateTotalPrice();
 
             // Assert
-            Assert.Equal(160, total); // 130 + 30
+            Assert.Equal(195, total); // 130 + 30
         }
     }
 }

@@ -1,40 +1,38 @@
 ﻿using SuperMarket.Domain.Interfaces;
 using SuperMarket.Domain.ValueObjects;
 
-namespace SuperMarket.Domain.PricingStrategies
+namespace SuperMarket.Domain.PricingStrategies;
+
+/// <summary>
+/// Pricing strategy that calculates the total price of specific cartItems
+/// </summary>
+public class PackPricingStrategy : IPricingStrategy
 {
-    public class PackPricingStrategy : IPricingStrategy
+    private readonly Catalog _catelog;
+
+    public PackPricingStrategy(Catalog pricing)
     {
-        private readonly Dictionary<string, List<Pack>> _pricing;
+        _catelog = pricing;
+    }
 
-        public PackPricingStrategy(Dictionary<string, List<Pack>> pricing)
+    /// <summary>
+    /// Calculates the total price for a given SKU and quantity,
+    /// </summary>
+    public decimal CalculatePrice(string sku, int quantity)
+    {
+        decimal total = 0;
+        int remaining = quantity;
+
+        foreach (var pack in _catelog.GetPacksForSku(sku))
         {
-            // Ensure each SKU’s packs are sorted from largest to smallest
-            _pricing = pricing.ToDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value.OrderByDescending(p => p.Size).ToList()
-            );
+            int numOfPacks = remaining / pack.Size;
+            total += numOfPacks * pack.Price;
+            remaining %= pack.Size;
+
+            if (remaining == 0)
+                break;
         }
 
-        public decimal CalculatePrice(string sku, int quantity)
-        {
-            if (!_pricing.TryGetValue(sku, out var packs))
-                throw new KeyNotFoundException($"No pricing rules defined for SKU '{sku}'");
-
-            decimal total = 0;
-            int remaining = quantity;
-
-            foreach (var pack in packs)
-            {
-                int numOfPacks = remaining / pack.Size;
-                total += numOfPacks * pack.Price;
-                remaining %= pack.Size;
-
-                if (remaining == 0)
-                    break;
-            }
-
-            return total;
-        }
+        return total;
     }
 }

@@ -1,24 +1,31 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SuperMarket.Application.Interfaces;
+using SuperMarket.Application.Providers;
 using SuperMarket.Application.Services;
 using SuperMarket.Domain.Interfaces;
 using SuperMarket.Domain.PricingStrategies;
+using SuperMarket.Domain.ValueObjects;
 
-namespace SuperMarket.Application
+namespace SuperMarket.Application;
+
+public static class ApplicationDI
 {
-    public class ApplicationDI
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        services.AddSingleton<PricingRulesProvider>();
+        services.AddSingleton<Catalog>(provider =>
         {
-            services.AddScoped<ICartService, CartService>();
-            services.AddScoped<IPricingStrategy>(provider =>
-            {
-                var ruleSource = provider.GetRequiredService<IPricingRuleSource>();
-                var rules = ruleSource.GetPackRules();
-                return new PackPricingStrategy(rules);
-            });
+            var pricingRules = provider.GetRequiredService<PricingRulesProvider>().PackRules;
+            return new Catalog(pricingRules);
+        });
 
-            return services;
-        }
+        services.AddSingleton<IPricingStrategy>(provider =>
+        {
+            var catalog = provider.GetRequiredService<Catalog>();
+            return new PackPricingStrategy(catalog);
+        });
+
+        services.AddSingleton<ICartService, CartService>();
+        return services;
     }
 }
