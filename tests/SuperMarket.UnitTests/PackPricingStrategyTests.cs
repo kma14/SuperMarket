@@ -1,5 +1,6 @@
 using SuperMarket.Domain.ValueObjects;
 using SuperMarket.Domain;
+using SuperMarket.Domain.PricingStrategies;
 
 namespace SuperMarket.UnitTests
 {
@@ -9,12 +10,12 @@ namespace SuperMarket.UnitTests
         public void CalculatePrice_ShouldApplyBundlePricing()
         {
             // Arrange
-            var rules = new Dictionary<string, List<Pack>>
+            var catalog = new Catalog(new Dictionary<string, List<Pack>>
             {
                 { "A", new List<Pack> { new(3, 130), new(1, 50) } }
-            };
+            });
 
-            var strategy = new PackPricingStrategy(rules);
+            var strategy = new PackPricingStrategy(catalog);
 
             // Act
             var price = strategy.CalculatePrice("A", 4);

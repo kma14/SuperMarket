@@ -10,5 +10,7 @@ namespace SuperMarket.Domain.Entities
     {
         public string Sku => sku;
         public int Quantity { get; private set; } = 1;
+
+        public void Increment() => Quantity++;
     }
 }
